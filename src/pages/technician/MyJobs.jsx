@@ -5,11 +5,8 @@ function MyJobs() {
   const [jobs, setJobs] = useState([])
 
   useEffect(() => {
-    const saved = JSON.parse(
-      localStorage.getItem('technicianJobs')
-    ) || []
-
-    setJobs(saved)
+    const data = localStorage.getItem('technicianJobs')
+    setJobs(data ? JSON.parse(data) : [])
   }, [])
 
   function updateJob(id, status) {
@@ -18,16 +15,11 @@ function MyJobs() {
     )
 
     setJobs(updated)
-
-    localStorage.setItem(
-      'technicianJobs',
-      JSON.stringify(updated)
-    )
+    localStorage.setItem('technicianJobs', JSON.stringify(updated))
   }
 
   return (
     <div className="page">
-
       <div className="page-header">
         <h1>My Jobs</h1>
         <p>Track your accepted and ongoing jobs.</p>
@@ -40,7 +32,6 @@ function MyJobs() {
         </div>
       ) : (
         <div className="request-list">
-
           {jobs.map((job) => (
             <div className="request-card" key={job.id}>
 
@@ -56,13 +47,8 @@ function MyJobs() {
               </div>
 
               <div className="request-details">
-                <p>
-                  <strong>Customer:</strong> {job.customer}
-                </p>
-
-                <p>
-                  <strong>Location:</strong> {job.location}
-                </p>
+                <p><strong>Customer:</strong> {job.customer}</p>
+                <p><strong>Location:</strong> {job.location}</p>
               </div>
 
               <div className="request-actions">
@@ -97,10 +83,8 @@ function MyJobs() {
                 </Link>
 
               </div>
-
             </div>
           ))}
-
         </div>
       )}
     </div>
