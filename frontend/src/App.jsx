@@ -8,6 +8,7 @@ import ServiceRequestDetails from './pages/customer/ServiceRequestDetails'
 import CustomerLogin from './pages/customer/CustomerLogin'
 import CustomerRegister from './pages/customer/CustomerRegister'
 import RequestSubmitted from './pages/customer/RequestSubmitted'
+import VerifyOTP from './pages/customer/VerifyOTP'
 
 function App() {
   const [page, setPage] = useState('login')
@@ -20,6 +21,14 @@ function App() {
 
   const [selectedService, setSelectedService] = useState('')
 
+  const [pendingRegistration, setPendingRegistration] =
+    useState(null)
+
+
+  /* =========================
+     LOGIN
+  ========================= */
+
   const handleLogin = (loginData) => {
     setCustomer({
       name: 'Rohit',
@@ -30,15 +39,43 @@ function App() {
     setPage('home')
   }
 
+
+  /* =========================
+     REGISTER
+  ========================= */
+
   const handleRegister = (registerData) => {
+    setPendingRegistration(registerData)
+
+    setPage('verify-otp')
+  }
+
+
+  /* =========================
+     VERIFY OTP
+  ========================= */
+
+  const handleVerifyOTP = () => {
+    if (!pendingRegistration) {
+      setPage('register')
+      return
+    }
+
     setCustomer({
-      name: registerData.name,
-      email: registerData.email,
+      name: pendingRegistration.name,
+      email: pendingRegistration.email,
       location: '',
     })
 
+    setPendingRegistration(null)
+
     setPage('home')
   }
+
+
+  /* =========================
+     PROFILE
+  ========================= */
 
   const handleSaveProfile = (profileData) => {
     setCustomer((currentCustomer) => ({
@@ -47,22 +84,44 @@ function App() {
     }))
   }
 
+
+  /* =========================
+     LOGOUT
+  ========================= */
+
   const handleLogout = () => {
     setCustomer(null)
     setPage('login')
   }
 
+
+  /* =========================
+     DELETE REQUEST
+  ========================= */
+
   const handleDeleteRequest = (requestIndex) => {
     setRequests((currentRequests) =>
-      currentRequests.filter((_, index) => index !== requestIndex)
+      currentRequests.filter(
+        (_, index) => index !== requestIndex
+      )
     )
   }
+
+
+  /* =========================
+     CREATE REQUEST
+  ========================= */
 
   const handleSubmitRequest = (newRequest) => {
     const requestWithDetails = {
       ...newRequest,
-      id: `FM-${String(requests.length + 1).padStart(4, '0')}`,
+
+      id: `FM-${String(
+        requests.length + 1
+      ).padStart(4, '0')}`,
+
       status: 'Pending',
+
       createdAt: new Date().toISOString(),
     }
 
@@ -72,19 +131,38 @@ function App() {
     ])
 
     setSelectedRequest(requestWithDetails)
+
     setSelectedService('')
+
     setPage('submitted')
   }
 
+
+  /* =========================
+     VIEW REQUEST
+  ========================= */
+
   const handleViewRequest = (request) => {
     setSelectedRequest(request)
+
     setPage('details')
   }
 
+
+  /* =========================
+     BOOK SERVICE
+  ========================= */
+
   const handleBookService = (service = '') => {
     setSelectedService(service)
+
     setPage('request')
   }
+
+
+  /* =========================
+     LOGIN PAGE
+  ========================= */
 
   if (page === 'login') {
     return (
@@ -95,6 +173,11 @@ function App() {
     )
   }
 
+
+  /* =========================
+     REGISTER PAGE
+  ========================= */
+
   if (page === 'register') {
     return (
       <CustomerRegister
@@ -103,6 +186,29 @@ function App() {
       />
     )
   }
+
+
+  /* =========================
+     OTP PAGE
+  ========================= */
+
+  if (page === 'verify-otp') {
+    return (
+      <VerifyOTP
+        email={pendingRegistration?.email || ''}
+        onVerify={handleVerifyOTP}
+        onBack={() => {
+          setPendingRegistration(null)
+          setPage('register')
+        }}
+      />
+    )
+  }
+
+
+  /* =========================
+     CREATE REQUEST
+  ========================= */
 
   if (page === 'request') {
     return (
@@ -114,6 +220,11 @@ function App() {
     )
   }
 
+
+  /* =========================
+     REQUEST SUBMITTED
+  ========================= */
+
   if (page === 'submitted') {
     return (
       <RequestSubmitted
@@ -123,6 +234,11 @@ function App() {
       />
     )
   }
+
+
+  /* =========================
+     PROFILE
+  ========================= */
 
   if (page === 'profile') {
     return (
@@ -135,6 +251,11 @@ function App() {
     )
   }
 
+
+  /* =========================
+     REQUEST DETAILS
+  ========================= */
+
   if (page === 'details') {
     return (
       <ServiceRequestDetails
@@ -143,6 +264,11 @@ function App() {
       />
     )
   }
+
+
+  /* =========================
+     HOME
+  ========================= */
 
   return (
     <CustomerHome
