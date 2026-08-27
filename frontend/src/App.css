@@ -945,3 +945,288 @@ body {
     width: 100%;
   }
 }
+/* =========================
+   Customer Home UI Polish
+========================= */
+
+.welcome-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.welcome-section::after {
+  content: "";
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  right: -60px;
+  top: -60px;
+  border: 35px solid rgba(255, 255, 255, 0.08);
+  border-radius: 50%;
+}
+
+.welcome-section h2,
+.welcome-section p,
+.welcome-section .book-service-button {
+  position: relative;
+  z-index: 1;
+}
+
+.services-section h2,
+.requests-section h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.services-section h2::before {
+  content: "";
+  width: 5px;
+  height: 24px;
+  border-radius: 5px;
+  background: #2563eb;
+}
+
+.requests-section h2::before {
+  content: "";
+  width: 5px;
+  height: 24px;
+  border-radius: 5px;
+  background: #4f46e5;
+}
+
+.service-grid button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 115px;
+  position: relative;
+  overflow: hidden;
+}
+
+.service-grid button::after {
+  content: "→";
+  position: absolute;
+  right: 12px;
+  bottom: 10px;
+  color: #2563eb;
+  font-size: 17px;
+  opacity: 0;
+  transform: translateX(-5px);
+  transition: 0.2s;
+}
+
+.service-grid button:hover::after {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.service-grid button:focus-visible,
+.profile-button:focus-visible,
+.book-service-button:focus-visible,
+.delete-request-button:focus-visible {
+  outline: 3px solid rgba(37, 99, 235, 0.25);
+  outline-offset: 2px;
+}
+
+.request-card {
+  cursor: pointer;
+}
+
+.request-card:hover {
+  border-color: #bfdbfe;
+}
+
+.request-card:active {
+  transform: translateY(0);
+}
+
+.request-footer span {
+  transition: 0.2s;
+}
+
+.request-card:hover .request-footer span {
+  transform: translateX(3px);
+}
+
+.delete-request-button {
+  transition: 0.2s;
+}
+
+.delete-request-button:hover {
+  transform: translateY(-1px);
+}
+
+@media (max-width: 800px) {
+  .welcome-section {
+    padding: 32px 25px;
+  }
+
+  .service-grid button {
+    min-height: 105px;
+  }
+}
+
+@media (max-width: 500px) {
+  .welcome-section {
+    padding: 28px 20px;
+  }
+
+  .welcome-section h2 {
+    font-size: 25px;
+  }
+
+  .welcome-section p {
+    font-size: 15px;
+  }
+
+  .service-grid button {
+    min-height: 90px;
+  }
+
+  .services-section h2,
+  .requests-section h2 {
+    font-size: 21px;
+  }
+}
+.service-card-button {
+  flex-direction: column;
+  gap: 10px;
+}
+
+.service-icon {
+  display: block;
+  font-size: 32px;
+  line-height: 1;
+}
+
+.service-card-button span:last-child {
+  font-size: 15px;
+  font-weight: 700;
+}
+/* =========================
+   Request Details Polish
+========================= */
+
+.request-meta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.request-meta-item {
+  padding: 15px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #f9fafb;
+}
+
+.request-meta-item span {
+  display: block;
+  margin-bottom: 5px;
+  color: #6b7280;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.request-meta-item strong {
+  color: #1f2937;
+  font-size: 15px;
+  word-break: break-word;
+}
+
+.details-content {
+  padding: 15px;
+  border-radius: 10px;
+  background: #f9fafb;
+}
+
+.details-content p {
+  margin: 0;
+  line-height: 1.6;
+}
+
+.location-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.location-pin {
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+.timeline-content {
+  padding-bottom: 5px;
+}
+
+.timeline-item.current .timeline-content strong {
+  color: #2563eb;
+}
+
+.rejected-message {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 18px;
+  border-radius: 12px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+}
+
+.rejected-icon {
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #fee2e2;
+  color: #dc2626;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.rejected-message strong {
+  color: #b91c1c;
+}
+
+.rejected-message p {
+  margin: 5px 0 0;
+  color: #6b7280;
+}
+
+.current-status-message {
+  margin-top: 25px;
+  padding: 18px;
+  border-radius: 12px;
+  background: #eff6ff;
+  border: 1px solid #dbeafe;
+}
+
+.current-status-message strong {
+  color: #1d4ed8;
+}
+
+.current-status-message p {
+  margin: 6px 0 0;
+  color: #4b5563;
+  line-height: 1.5;
+}
+
+@media (max-width: 600px) {
+  .request-meta-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .request-details-header {
+    gap: 15px;
+  }
+
+  .rejected-message {
+    align-items: flex-start;
+  }
+}

@@ -1,23 +1,41 @@
 import { useState } from 'react'
 
-function CustomerProfile({ onBack, customer, onSaveProfile, onLogout }) {
+function CustomerProfile({
+  onBack,
+  customer,
+  onSaveProfile,
+  onLogout,
+}) {
   const [isEditing, setIsEditing] = useState(false)
 
-  const [name, setName] = useState(customer?.name || 'Rohit')
+  const [name, setName] = useState(
+    customer?.name || 'Rohit'
+  )
+
   const [email, setEmail] = useState(
     customer?.email || 'akarohit31@gmail.com'
   )
-  const [location, setLocation] = useState('')
+
+  const [location, setLocation] = useState(
+    customer?.location || ''
+  )
 
   const handleSave = (event) => {
     event.preventDefault()
 
     onSaveProfile({
-      name,
-      email,
-      location,
+      name: name.trim(),
+      email: email.trim(),
+      location: location.trim(),
     })
 
+    setIsEditing(false)
+  }
+
+  const handleCancel = () => {
+    setName(customer?.name || 'Rohit')
+    setEmail(customer?.email || 'akarohit31@gmail.com')
+    setLocation(customer?.location || '')
     setIsEditing(false)
   }
 
@@ -35,29 +53,39 @@ function CustomerProfile({ onBack, customer, onSaveProfile, onLogout }) {
 
         <div className="profile-card">
 
+          {/* Avatar */}
           <div className="profile-avatar">
             {name.charAt(0).toUpperCase()}
           </div>
+
+          <p className="profile-label">
+            Customer Account
+          </p>
 
           <h1>My Profile</h1>
 
           {!isEditing ? (
 
             <>
+              {/* Profile Information */}
               <div className="profile-info">
 
                 <div className="profile-item">
-                  <span>Name</span>
-                  <strong>{name}</strong>
+                  <span>👤 Name</span>
+                  <strong>
+                    {name || 'Not added'}
+                  </strong>
                 </div>
 
                 <div className="profile-item">
-                  <span>Email</span>
-                  <strong>{email}</strong>
+                  <span>✉️ Email</span>
+                  <strong>
+                    {email || 'Not added'}
+                  </strong>
                 </div>
 
                 <div className="profile-item">
-                  <span>Location</span>
+                  <span>📍 Location</span>
                   <strong>
                     {location || 'Not added'}
                   </strong>
@@ -65,28 +93,38 @@ function CustomerProfile({ onBack, customer, onSaveProfile, onLogout }) {
 
               </div>
 
-              <button
-                type="button"
-                className="edit-profile-button"
-                onClick={() => setIsEditing(true)}
-              >
-                Edit Profile
-              </button>
+              {/* Actions */}
+              <div className="profile-actions">
 
-              <button
-                type="button"
-                className="logout-button"
-                onClick={onLogout}
-              >
-                Logout
-              </button>
+                <button
+                  type="button"
+                  className="edit-profile-button"
+                  onClick={() => setIsEditing(true)}
+                >
+                  ✏️ Edit Profile
+                </button>
+
+                <button
+                  type="button"
+                  className="logout-button"
+                  onClick={onLogout}
+                >
+                  Logout
+                </button>
+
+              </div>
             </>
 
           ) : (
 
-            <form onSubmit={handleSave}>
+            /* Edit Profile */
+            <form
+              className="profile-edit-form"
+              onSubmit={handleSave}
+            >
 
               <div className="form-group">
+
                 <label htmlFor="profile-name">
                   Name
                 </label>
@@ -98,11 +136,15 @@ function CustomerProfile({ onBack, customer, onSaveProfile, onLogout }) {
                   onChange={(event) =>
                     setName(event.target.value)
                   }
+                  placeholder="Enter your name"
                   required
                 />
+
               </div>
 
+
               <div className="form-group">
+
                 <label htmlFor="profile-email">
                   Email
                 </label>
@@ -114,40 +156,50 @@ function CustomerProfile({ onBack, customer, onSaveProfile, onLogout }) {
                   onChange={(event) =>
                     setEmail(event.target.value)
                   }
+                  placeholder="Enter your email"
                   required
                 />
+
               </div>
 
+
               <div className="form-group">
+
                 <label htmlFor="profile-location">
-                  Location
+                  📍 Location
                 </label>
 
                 <input
                   id="profile-location"
                   type="text"
-                  placeholder="Enter your location"
                   value={location}
                   onChange={(event) =>
                     setLocation(event.target.value)
                   }
+                  placeholder="Enter your location"
                 />
+
               </div>
 
-              <button
-                type="submit"
-                className="edit-profile-button"
-              >
-                Save Changes
-              </button>
 
-              <button
-                type="button"
-                className="cancel-profile-button"
-                onClick={() => setIsEditing(false)}
-              >
-                Cancel
-              </button>
+              <div className="profile-edit-actions">
+
+                <button
+                  type="submit"
+                  className="edit-profile-button"
+                >
+                  ✓ Save Changes
+                </button>
+
+                <button
+                  type="button"
+                  className="cancel-profile-button"
+                  onClick={handleCancel}
+                >
+                  Cancel
+                </button>
+
+              </div>
 
             </form>
 

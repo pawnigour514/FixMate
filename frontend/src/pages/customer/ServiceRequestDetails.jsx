@@ -1,4 +1,30 @@
 function ServiceRequestDetails({ request, onBack }) {
+  if (!request) {
+    return (
+      <div className="request-details-page">
+        <div className="request-details-container">
+
+          <button
+            type="button"
+            className="back-button"
+            onClick={onBack}
+          >
+            ← Back to Requests
+          </button>
+
+          <div className="request-details-card">
+            <h1>Request Not Found</h1>
+
+            <p>
+              We could not find this service request.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    )
+  }
+
   const statusSteps = [
     {
       status: 'Pending',
@@ -29,7 +55,9 @@ function ServiceRequestDetails({ request, onBack }) {
     'Completed',
   ]
 
-  const currentStatusIndex = statusOrder.indexOf(request.status)
+  const currentStatusIndex = statusOrder.indexOf(
+    request.status
+  )
 
   const formattedDate = request.createdAt
     ? new Date(request.createdAt).toLocaleString('en-IN', {
@@ -38,8 +66,37 @@ function ServiceRequestDetails({ request, onBack }) {
       })
     : 'Not available'
 
+  const getStatusClass = (status) => {
+    switch (status) {
+      case 'Accepted':
+        return 'status-accepted'
+
+      case 'In Progress':
+        return 'status-progress'
+
+      case 'Completed':
+        return 'status-completed'
+
+      case 'Rejected':
+        return 'status-rejected'
+
+      default:
+        return 'status-pending'
+    }
+  }
+
+  const serviceName =
+    request.category
+      ?.split('-')
+      .map(
+        (word) =>
+          word.charAt(0).toUpperCase() + word.slice(1)
+      )
+      .join(' ') || 'Service Request'
+
   return (
     <div className="request-details-page">
+
       <div className="request-details-container">
 
         <button
@@ -50,8 +107,10 @@ function ServiceRequestDetails({ request, onBack }) {
           ← Back to Requests
         </button>
 
+
         <div className="request-details-card">
 
+          {/* Header */}
           <div className="request-details-header">
 
             <div>
@@ -60,111 +119,220 @@ function ServiceRequestDetails({ request, onBack }) {
               </p>
 
               <h1>
-                {request.category.charAt(0).toUpperCase() +
-                  request.category.slice(1)}
+                {serviceName}
               </h1>
             </div>
 
             <span
-              className={`request-status ${
-                request.status === 'Accepted'
-                  ? 'status-accepted'
-                  : request.status === 'In Progress'
-                  ? 'status-progress'
-                  : request.status === 'Completed'
-                  ? 'status-completed'
-                  : request.status === 'Rejected'
-                  ? 'status-rejected'
-                  : 'status-pending'
-              }`}
+              className={`request-status ${getStatusClass(
+                request.status
+              )}`}
             >
               {request.status}
             </span>
 
           </div>
 
-          <div className="request-id-section">
-            <span>Request ID</span>
 
-            <strong>
-              {request.id || 'FM-0001'}
-            </strong>
-          </div>
+          {/* Request Information */}
+          <div className="request-meta-grid">
 
-          <div className="request-date-section">
-            <span>Submitted</span>
+            <div className="request-meta-item">
 
-            <strong>
-              {formattedDate}
-            </strong>
-          </div>
+              <span>
+                Request ID
+              </span>
 
-          <div className="details-section">
+              <strong>
+                {request.id || 'FM-0001'}
+              </strong>
 
-            <h3>Problem</h3>
+            </div>
 
-            <p>
-              {request.description}
-            </p>
 
-          </div>
+            <div className="request-meta-item">
 
-          <div className="details-section">
+              <span>
+                Submitted
+              </span>
 
-            <h3>
-              <span className="location-icon">●</span>
-              Location
-            </h3>
-
-            <p>
-              {request.location}
-            </p>
-
-          </div>
-
-          <div className="details-section">
-
-            <h3>Request Status</h3>
-
-            <div className="status-timeline">
-
-              {statusSteps.map((step, index) => {
-
-                const isActive =
-                  index <= currentStatusIndex
-
-                return (
-                  <div
-                    className={`timeline-item ${
-                      isActive ? 'active' : ''
-                    }`}
-                    key={step.status}
-                  >
-
-                    <div className="timeline-dot">
-                      {isActive ? '✓' : index + 1}
-                    </div>
-
-                    <div>
-                      <strong>
-                        {step.title}
-                      </strong>
-
-                      <p>
-                        {step.description}
-                      </p>
-                    </div>
-
-                  </div>
-                )
-              })}
+              <strong>
+                {formattedDate}
+              </strong>
 
             </div>
 
           </div>
 
+
+          {/* Problem */}
+          <div className="details-section">
+
+            <h3>
+              📝 Problem
+            </h3>
+
+            <div className="details-content">
+              <p>
+                {request.description || 'No description provided.'}
+              </p>
+            </div>
+
+          </div>
+
+
+          {/* Location */}
+          <div className="details-section">
+
+            <h3>
+              📍 Location
+            </h3>
+
+            <div className="details-content location-content">
+
+              <span className="location-pin">
+                📍
+              </span>
+
+              <p>
+                {request.location || 'Location not provided.'}
+              </p>
+
+            </div>
+
+          </div>
+
+
+          {/* Uploaded File */}
+          {request.file && (
+            <div className="details-section">
+
+              <h3>
+                📎 Attachment
+              </h3>
+
+              <div className="details-content">
+
+                <p>
+                  {request.file.name}
+                </p>
+
+              </div>
+
+            </div>
+          )}
+
+
+          {/* Status */}
+          <div className="details-section">
+
+            <h3>
+              Request Status
+            </h3>
+
+
+            {request.status === 'Rejected' ? (
+
+              <div className="rejected-message">
+
+                <div className="rejected-icon">
+                  ✕
+                </div>
+
+                <div>
+                  <strong>
+                    Request Rejected
+                  </strong>
+
+                  <p>
+                    Unfortunately, this service request
+                    was rejected.
+                  </p>
+                </div>
+
+              </div>
+
+            ) : (
+
+              <div className="status-timeline">
+
+                {statusSteps.map((step, index) => {
+
+                  const isActive =
+                    index <= currentStatusIndex
+
+                  const isCurrent =
+                    index === currentStatusIndex
+
+                  return (
+                    <div
+                      className={`timeline-item ${
+                        isActive ? 'active' : ''
+                      } ${
+                        isCurrent ? 'current' : ''
+                      }`}
+                      key={step.status}
+                    >
+
+                      <div className="timeline-dot">
+                        {isActive
+                          ? '✓'
+                          : index + 1}
+                      </div>
+
+                      <div className="timeline-content">
+
+                        <strong>
+                          {step.title}
+                        </strong>
+
+                        <p>
+                          {step.description}
+                        </p>
+
+                      </div>
+
+                    </div>
+                  )
+                })}
+
+              </div>
+
+            )}
+
+          </div>
+
+
+          {/* Current Status Message */}
+          <div className="current-status-message">
+
+            <strong>
+              Current Status
+            </strong>
+
+            <p>
+              {request.status === 'Pending' &&
+                'We are looking for a technician for your request.'}
+
+              {request.status === 'Accepted' &&
+                'A technician has accepted your request and will handle the service.'}
+
+              {request.status === 'In Progress' &&
+                'Your technician is currently working on the service.'}
+
+              {request.status === 'Completed' &&
+                'Your service request has been successfully completed.'}
+
+              {request.status === 'Rejected' &&
+                'Please create another request if you still need assistance.'}
+            </p>
+
+          </div>
+
         </div>
+
       </div>
+
     </div>
   )
 }
