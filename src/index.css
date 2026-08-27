@@ -571,3 +571,73 @@ header p {
   color: #6b7280;
   margin-top: 5px;
 }
+/* Notification */
+
+.notification-wrapper {
+  position: relative;
+}
+
+.notification {
+  position: relative;
+  border: none;
+  background: transparent;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 8px;
+}
+
+.notification-count {
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  min-width: 18px;
+  height: 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: red;
+  color: white;
+
+  border-radius: 50%;
+
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.notification-dropdown {
+  position: absolute;
+  top: 45px;
+  right: 0;
+
+  width: 280px;
+
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+
+  padding: 18px;
+
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+
+  z-index: 1000;
+}
+
+.notification-dropdown h3 {
+  margin: 0 0 10px;
+}
+
+.notification-dropdown p {
+  margin: 8px 0;
+  font-size: 14px;
+}
+
+.notification-link {
+  display: inline-block;
+  margin-top: 10px;
+
+  text-decoration: none;
+  font-weight: 600;
+}
