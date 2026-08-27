@@ -453,3 +453,64 @@ body {
   background: #111827;
   color: rgb(255, 255, 255);
 }
+.profile-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.verified-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  background: #2563eb;
+  color: white;
+  border-radius: 50%;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.verified-text {
+  color: #2563eb !important;
+  font-size: 13px;
+  font-weight: bold;
+  margin-top: 5px;
+}
+.verification-pending {
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  color: #c2410c;
+  padding: 18px;
+  border-radius: 10px;
+  margin-bottom: 25px;
+}
+
+.verification-approved {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  color: #2563eb;
+  padding: 18px;
+  border-radius: 10px;
+  margin-bottom: 25px;
+}
+
+.verification-pending h2,
+.verification-approved h2 {
+  margin: 0 0 8px;
+}
+
+.submitted-proof {
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 15px;
+}
+
+.verification-locked {
+  margin-top: 20px;
+  color: #6b7280;
+  font-size: 14px;
+}

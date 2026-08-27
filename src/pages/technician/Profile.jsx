@@ -1,3 +1,4 @@
+
 import { useState } from 'react'
 
 function Profile() {
@@ -10,11 +11,18 @@ function Profile() {
       isOnline: true,
     }
 
+  const verification =
+    JSON.parse(
+      localStorage.getItem('technicianVerification')
+    ) || {}
+
   const [name, setName] = useState(savedProfile.name)
   const [phone, setPhone] = useState(savedProfile.phone)
   const [service, setService] = useState(savedProfile.service)
   const [location, setLocation] = useState(savedProfile.location)
   const [isOnline, setIsOnline] = useState(savedProfile.isOnline)
+
+  const isVerified = verification.status === 'Verified'
 
   function saveProfile() {
     if (!name.trim()) {
@@ -37,17 +45,15 @@ function Profile() {
       return
     }
 
-    const profile = {
-      name: name.trim(),
-      phone,
-      service: service.trim(),
-      location: location.trim(),
-      isOnline,
-    }
-
     localStorage.setItem(
       'technicianProfile',
-      JSON.stringify(profile)
+      JSON.stringify({
+        name: name.trim(),
+        phone,
+        service: service.trim(),
+        location: location.trim(),
+        isOnline,
+      })
     )
 
     alert('Profile updated successfully!')
@@ -55,70 +61,71 @@ function Profile() {
 
   function toggleAvailability() {
     const newStatus = !isOnline
-
     setIsOnline(newStatus)
-
-    const profile = {
-      name,
-      phone,
-      service,
-      location,
-      isOnline: newStatus,
-    }
 
     localStorage.setItem(
       'technicianProfile',
-      JSON.stringify(profile)
+      JSON.stringify({
+        name,
+        phone,
+        service,
+        location,
+        isOnline: newStatus,
+      })
     )
   }
 
   return (
     <div className="page">
 
-      {/* Page Header */}
       <div className="page-header">
         <h1>Technician Profile</h1>
-
-        <p>
-          Manage your personal information and availability.
-        </p>
+        <p>Manage your personal information and availability.</p>
       </div>
 
-      {/* Profile Card */}
       <div className="profile-card">
 
-        {/* Profile Top */}
         <div className="profile-top">
 
           <div className="profile-avatar">
             {name
               .split(' ')
               .filter(Boolean)
-              .map((word) => word[0])
+              .map(word => word[0])
               .join('')
               .slice(0, 2)
               .toUpperCase()}
           </div>
 
           <div>
-            <h2>{name}</h2>
+            <h2 className="profile-name">
+              {name}
 
-            <p>
-              {service} Technician
-            </p>
+              {isVerified && (
+                <span
+                  className="verified-badge"
+                  title="Verified Technician"
+                >
+                  ✓
+                </span>
+              )}
+            </h2>
 
-            <span
-              className={
-                isOnline ? 'online' : 'offline'
-              }
-            >
+            <p>{service} Technician</p>
+
+            <span className={isOnline ? 'online' : 'offline'}>
               ● {isOnline ? 'Online' : 'Offline'}
             </span>
+
+            {isVerified && (
+              <p className="verified-text">
+                ✓ Verified Technician
+              </p>
+            )}
           </div>
 
         </div>
 
-        {/* Availability */}
         <div className="availability">
 
           <h3>Availability</h3>
@@ -132,74 +139,56 @@ function Profile() {
             }
             onClick={toggleAvailability}
           >
-            {isOnline
-              ? 'Go Offline'
-              : 'Go Online'}
+            {isOnline ? 'Go Offline' : 'Go Online'}
           </button>
 
         </div>
 
-        {/* Profile Form */}
         <div className="profile-form">
 
           <div className="form-group">
             <label>Name</label>
-
             <input
               type="text"
               value={name}
-              onChange={(e) =>
-                setName(e.target.value)
-              }
-              placeholder="Enter your name"
+              onChange={e => setName(e.target.value)}
             />
           </div>
 
           <div className="form-group">
             <label>Phone</label>
-
             <input
               type="tel"
               value={phone}
               maxLength="10"
-              onChange={(e) =>
+              onChange={e =>
                 setPhone(
                   e.target.value.replace(/\D/g, '')
                 )
               }
-              placeholder="Enter 10-digit phone number"
             />
           </div>
 
           <div className="form-group">
             <label>Service</label>
-
             <input
               type="text"
               value={service}
-              onChange={(e) =>
-                setService(e.target.value)
-              }
-              placeholder="Example: AC Repair"
+              onChange={e => setService(e.target.value)}
             />
           </div>
 
           <div className="form-group">
             <label>Location</label>
-
             <input
               type="text"
               value={location}
-              onChange={(e) =>
-                setLocation(e.target.value)
-              }
-              placeholder="Enter your location"
+              onChange={e => setLocation(e.target.value)}
             />
           </div>
 
         </div>
 
-        {/* Save */}
         <button
           type="button"
           className="save-profile"
@@ -215,3 +204,4 @@ function Profile() {
 }
 
 export default Profile
+

@@ -11,7 +11,6 @@ function TechnicianLayout() {
   return (
     <div className="dashboard">
 
-      {/* Sidebar */}
       <aside className="sidebar">
         <h2>FixMate</h2>
 
@@ -29,6 +28,10 @@ function TechnicianLayout() {
           <Link to="/profile">
             Profile
           </Link>
+
+          <Link to="/verification">
+            Verification
+          </Link>
         </nav>
 
         <button
@@ -39,7 +42,6 @@ function TechnicianLayout() {
         </button>
       </aside>
 
-      {/* Main Content */}
       <main className="main-content">
         <Outlet />
       </main>
@@ -49,3 +51,4 @@ function TechnicianLayout() {
 }
 
 export default TechnicianLayout
+
