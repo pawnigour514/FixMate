@@ -17,11 +17,31 @@ function Profile() {
   const [isOnline, setIsOnline] = useState(savedProfile.isOnline)
 
   function saveProfile() {
+    if (!name.trim()) {
+      alert('Please enter your name')
+      return
+    }
+
+    if (!/^[0-9]{10}$/.test(phone)) {
+      alert('Please enter a valid 10-digit phone number')
+      return
+    }
+
+    if (!service.trim()) {
+      alert('Please enter your service')
+      return
+    }
+
+    if (!location.trim()) {
+      alert('Please enter your location')
+      return
+    }
+
     const profile = {
-      name,
+      name: name.trim(),
       phone,
-      service,
-      location,
+      service: service.trim(),
+      location: location.trim(),
       isOnline,
     }
 
@@ -55,18 +75,25 @@ function Profile() {
   return (
     <div className="page">
 
+      {/* Page Header */}
       <div className="page-header">
         <h1>Technician Profile</h1>
-        <p>Manage your personal information and availability.</p>
+
+        <p>
+          Manage your personal information and availability.
+        </p>
       </div>
 
+      {/* Profile Card */}
       <div className="profile-card">
 
+        {/* Profile Top */}
         <div className="profile-top">
 
           <div className="profile-avatar">
             {name
               .split(' ')
+              .filter(Boolean)
               .map((word) => word[0])
               .join('')
               .slice(0, 2)
@@ -76,20 +103,28 @@ function Profile() {
           <div>
             <h2>{name}</h2>
 
-            <p>{service} Technician</p>
+            <p>
+              {service} Technician
+            </p>
 
-            <span className={isOnline ? 'online' : 'offline'}>
+            <span
+              className={
+                isOnline ? 'online' : 'offline'
+              }
+            >
               ● {isOnline ? 'Online' : 'Offline'}
             </span>
           </div>
 
         </div>
 
+        {/* Availability */}
         <div className="availability">
 
           <h3>Availability</h3>
 
           <button
+            type="button"
             className={
               isOnline
                 ? 'online-button'
@@ -97,11 +132,14 @@ function Profile() {
             }
             onClick={toggleAvailability}
           >
-            {isOnline ? 'Go Offline' : 'Go Online'}
+            {isOnline
+              ? 'Go Offline'
+              : 'Go Online'}
           </button>
 
         </div>
 
+        {/* Profile Form */}
         <div className="profile-form">
 
           <div className="form-group">
@@ -110,7 +148,10 @@ function Profile() {
             <input
               type="text"
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) =>
+                setName(e.target.value)
+              }
+              placeholder="Enter your name"
             />
           </div>
 
@@ -118,9 +159,15 @@ function Profile() {
             <label>Phone</label>
 
             <input
-              type="text"
+              type="tel"
               value={phone}
-              onChange={(e) => setPhone(e.target.value)}
+              maxLength="10"
+              onChange={(e) =>
+                setPhone(
+                  e.target.value.replace(/\D/g, '')
+                )
+              }
+              placeholder="Enter 10-digit phone number"
             />
           </div>
 
@@ -130,7 +177,10 @@ function Profile() {
             <input
               type="text"
               value={service}
-              onChange={(e) => setService(e.target.value)}
+              onChange={(e) =>
+                setService(e.target.value)
+              }
+              placeholder="Example: AC Repair"
             />
           </div>
 
@@ -140,13 +190,18 @@ function Profile() {
             <input
               type="text"
               value={location}
-              onChange={(e) => setLocation(e.target.value)}
+              onChange={(e) =>
+                setLocation(e.target.value)
+              }
+              placeholder="Enter your location"
             />
           </div>
 
         </div>
 
+        {/* Save */}
         <button
+          type="button"
           className="save-profile"
           onClick={saveProfile}
         >
