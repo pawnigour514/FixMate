@@ -9,14 +9,14 @@ function ServiceRequestDetails({ request, onBack }) {
             className="back-button"
             onClick={onBack}
           >
-            ← Back to Requests
+            ← Back
           </button>
 
-          <div className="request-details-card">
-            <h1>Request Not Found</h1>
+          <div className="request-details-card empty-details-card">
+            <h1>Request not found</h1>
 
             <p>
-              We could not find this service request.
+              This request is no longer available.
             </p>
           </div>
 
@@ -28,23 +28,19 @@ function ServiceRequestDetails({ request, onBack }) {
   const statusSteps = [
     {
       status: 'Pending',
-      title: 'Request Submitted',
-      description: 'Your request has been submitted.',
+      title: 'Request submitted',
     },
     {
       status: 'Accepted',
-      title: 'Technician Assigned',
-      description: 'A technician has accepted your request.',
+      title: 'Technician assigned',
     },
     {
       status: 'In Progress',
-      title: 'Service In Progress',
-      description: 'The technician is working on your request.',
+      title: 'Service in progress',
     },
     {
       status: 'Completed',
       title: 'Completed',
-      description: 'Your service has been completed.',
     },
   ]
 
@@ -55,9 +51,8 @@ function ServiceRequestDetails({ request, onBack }) {
     'Completed',
   ]
 
-  const currentStatusIndex = statusOrder.indexOf(
-    request.status
-  )
+  const currentStatusIndex =
+    statusOrder.indexOf(request.status)
 
   const formattedDate = request.createdAt
     ? new Date(request.createdAt).toLocaleString('en-IN', {
@@ -99,6 +94,8 @@ function ServiceRequestDetails({ request, onBack }) {
 
       <div className="request-details-container">
 
+        {/* Back */}
+
         <button
           type="button"
           className="back-button"
@@ -108,19 +105,24 @@ function ServiceRequestDetails({ request, onBack }) {
         </button>
 
 
+        {/* Main Card */}
+
         <div className="request-details-card">
 
           {/* Header */}
+
           <div className="request-details-header">
 
             <div>
+
               <p className="request-label">
-                Service Request
+                SERVICE REQUEST
               </p>
 
               <h1>
                 {serviceName}
               </h1>
+
             </div>
 
             <span
@@ -134,7 +136,8 @@ function ServiceRequestDetails({ request, onBack }) {
           </div>
 
 
-          {/* Request Information */}
+          {/* Request information */}
+
           <div className="request-meta-grid">
 
             <div className="request-meta-item">
@@ -166,36 +169,38 @@ function ServiceRequestDetails({ request, onBack }) {
 
 
           {/* Problem */}
+
           <div className="details-section">
 
             <h3>
-              📝 Problem
+              Problem
             </h3>
 
             <div className="details-content">
+
               <p>
-                {request.description || 'No description provided.'}
+                {request.description ||
+                  'No description provided.'}
               </p>
+
             </div>
 
           </div>
 
 
           {/* Location */}
+
           <div className="details-section">
 
             <h3>
-              📍 Location
+              Location
             </h3>
 
-            <div className="details-content location-content">
-
-              <span className="location-pin">
-                📍
-              </span>
+            <div className="details-content">
 
               <p>
-                {request.location || 'Location not provided.'}
+                {request.location ||
+                  'Location not provided.'}
               </p>
 
             </div>
@@ -203,17 +208,18 @@ function ServiceRequestDetails({ request, onBack }) {
           </div>
 
 
-          {/* Uploaded File */}
+          {/* Attachment */}
+
           {request.file && (
             <div className="details-section">
 
               <h3>
-                📎 Attachment
+                Attachment
               </h3>
 
               <div className="details-content">
 
-                <p>
+                <p className="attachment-name">
                   {request.file.name}
                 </p>
 
@@ -224,30 +230,31 @@ function ServiceRequestDetails({ request, onBack }) {
 
 
           {/* Status */}
+
           <div className="details-section">
 
             <h3>
-              Request Status
+              Status
             </h3>
-
 
             {request.status === 'Rejected' ? (
 
               <div className="rejected-message">
 
                 <div className="rejected-icon">
-                  ✕
+                  ×
                 </div>
 
                 <div>
+
                   <strong>
-                    Request Rejected
+                    Request rejected
                   </strong>
 
                   <p>
-                    Unfortunately, this service request
-                    was rejected.
+                    This request was not accepted.
                   </p>
+
                 </div>
 
               </div>
@@ -275,9 +282,11 @@ function ServiceRequestDetails({ request, onBack }) {
                     >
 
                       <div className="timeline-dot">
+
                         {isActive
                           ? '✓'
                           : index + 1}
+
                       </div>
 
                       <div className="timeline-content">
@@ -286,9 +295,11 @@ function ServiceRequestDetails({ request, onBack }) {
                           {step.title}
                         </strong>
 
-                        <p>
-                          {step.description}
-                        </p>
+                        {isCurrent && (
+                          <span className="timeline-current">
+                            Current
+                          </span>
+                        )}
 
                       </div>
 
@@ -303,29 +314,17 @@ function ServiceRequestDetails({ request, onBack }) {
           </div>
 
 
-          {/* Current Status Message */}
+          {/* Current status */}
+
           <div className="current-status-message">
 
+            <span>
+              Current status
+            </span>
+
             <strong>
-              Current Status
+              {request.status}
             </strong>
-
-            <p>
-              {request.status === 'Pending' &&
-                'We are looking for a technician for your request.'}
-
-              {request.status === 'Accepted' &&
-                'A technician has accepted your request and will handle the service.'}
-
-              {request.status === 'In Progress' &&
-                'Your technician is currently working on the service.'}
-
-              {request.status === 'Completed' &&
-                'Your service request has been successfully completed.'}
-
-              {request.status === 'Rejected' &&
-                'Please create another request if you still need assistance.'}
-            </p>
 
           </div>
 

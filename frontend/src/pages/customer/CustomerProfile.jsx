@@ -41,6 +41,7 @@ function CustomerProfile({
 
   return (
     <div className="profile-page">
+
       <div className="profile-container">
 
         <button
@@ -51,49 +52,82 @@ function CustomerProfile({
           ← Back to Home
         </button>
 
+
         <div className="profile-card">
 
-          {/* Avatar */}
-          <div className="profile-avatar">
-            {name.charAt(0).toUpperCase()}
+          {/* Header */}
+
+          <div className="profile-header">
+
+            <div className="profile-avatar">
+              {name.charAt(0).toUpperCase()}
+            </div>
+
+            <div>
+
+              <p className="profile-label">
+                CUSTOMER ACCOUNT
+              </p>
+
+              <h1>
+                My Profile
+              </h1>
+
+            </div>
+
           </div>
 
-          <p className="profile-label">
-            Customer Account
-          </p>
-
-          <h1>My Profile</h1>
 
           {!isEditing ? (
 
             <>
-              {/* Profile Information */}
+              {/* Profile information */}
+
               <div className="profile-info">
 
                 <div className="profile-item">
-                  <span>👤 Name</span>
+
+                  <span>
+                    Name
+                  </span>
+
                   <strong>
                     {name || 'Not added'}
                   </strong>
+
                 </div>
 
+
                 <div className="profile-item">
-                  <span>✉️ Email</span>
+
+                  <span>
+                    Email
+                  </span>
+
                   <strong>
                     {email || 'Not added'}
                   </strong>
+
                 </div>
 
+
                 <div className="profile-item">
-                  <span>📍 Location</span>
+
+                  <span>
+                    Location
+                  </span>
+
                   <strong>
                     {location || 'Not added'}
                   </strong>
+
                 </div>
 
               </div>
 
+
               {/* Actions */}
+
               <div className="profile-actions">
 
                 <button
@@ -101,7 +135,7 @@ function CustomerProfile({
                   className="edit-profile-button"
                   onClick={() => setIsEditing(true)}
                 >
-                  ✏️ Edit Profile
+                  Edit Profile
                 </button>
 
                 <button
@@ -117,7 +151,6 @@ function CustomerProfile({
 
           ) : (
 
-            /* Edit Profile */
             <form
               className="profile-edit-form"
               onSubmit={handleSave}
@@ -166,7 +199,7 @@ function CustomerProfile({
               <div className="form-group">
 
                 <label htmlFor="profile-location">
-                  📍 Location
+                  Location
                 </label>
 
                 <input
@@ -188,7 +221,7 @@ function CustomerProfile({
                   type="submit"
                   className="edit-profile-button"
                 >
-                  ✓ Save Changes
+                  Save Changes
                 </button>
 
                 <button
@@ -208,6 +241,7 @@ function CustomerProfile({
         </div>
 
       </div>
+
     </div>
   )
 }

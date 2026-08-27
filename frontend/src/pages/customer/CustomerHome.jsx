@@ -27,7 +27,7 @@ function CustomerHome({
 
   const formatDate = (date) => {
     if (!date) {
-      return 'Submitted just now'
+      return 'Just now'
     }
 
     return new Date(date).toLocaleString('en-IN', {
@@ -43,53 +43,100 @@ function CustomerHome({
   return (
     <div className="customer-home">
 
-      {/* Header */}
+      {/* Navigation */}
       <header className="customer-header">
 
-        <h1>FixMate</h1>
+        <div className="brand">
+          <span className="brand-mark">
+            F
+          </span>
+
+          <span className="brand-name">
+            FixMate
+          </span>
+        </div>
 
         <button
           type="button"
           className="profile-button"
           onClick={onProfile}
         >
-          👤 Profile
+          <span className="profile-icon">
+            {customer?.name?.charAt(0).toUpperCase() || 'R'}
+          </span>
+
+          <span>Profile</span>
         </button>
 
       </header>
 
 
-      {/* Main Content */}
       <main className="customer-content">
 
-        {/* Welcome Section */}
+        {/* Hero */}
         <section className="welcome-section">
 
-          <h2>
-            Hello, {customer?.name || 'Rohit'} 👋
-          </h2>
+          <div className="welcome-content">
 
-          <p>
-            What service do you need today?
-          </p>
+            <p className="welcome-eyebrow">
+              HOME SERVICES, SIMPLIFIED
+            </p>
 
-          <button
-            type="button"
-            className="book-service-button"
-            onClick={() => handleServiceClick('')}
-          >
-            Book a Service
-          </button>
+            <h1>
+              What can we help
+              <br />
+              you fix today?
+            </h1>
+
+            <p className="welcome-description">
+              Book reliable professionals for repairs,
+              maintenance and everyday home services.
+            </p>
+
+            <button
+              type="button"
+              className="book-service-button"
+              onClick={() => handleServiceClick('')}
+            >
+              Book a Service
+              <span>→</span>
+            </button>
+
+          </div>
+
+          <div className="welcome-decoration">
+            <div className="decoration-circle large" />
+            <div className="decoration-circle small" />
+          </div>
 
         </section>
 
 
-        {/* Popular Services */}
+        {/* Services */}
         <section className="services-section">
 
-          <h2>
-            Popular Services
-          </h2>
+          <div className="section-heading">
+
+            <div>
+              <p className="section-eyebrow">
+                OUR SERVICES
+              </p>
+
+              <h2>
+                Popular services
+              </h2>
+            </div>
+
+            <button
+              type="button"
+              className="view-all-button"
+              onClick={() => handleServiceClick('')}
+            >
+              View all →
+            </button>
+
+          </div>
+
 
           <div className="service-grid">
 
@@ -104,8 +151,12 @@ function CustomerHome({
                 🔧
               </span>
 
-              <span>
+              <span className="service-name">
                 Plumbing
+              </span>
+
+              <span className="service-description">
+                Pipes &amp; leaks
               </span>
             </button>
 
@@ -121,8 +172,12 @@ function CustomerHome({
                 ⚡
               </span>
 
-              <span>
+              <span className="service-name">
                 Electrical
+              </span>
+
+              <span className="service-description">
+                Wiring &amp; power
               </span>
             </button>
 
@@ -138,8 +193,12 @@ function CustomerHome({
                 ❄️
               </span>
 
-              <span>
+              <span className="service-name">
                 AC Repair
+              </span>
+
+              <span className="service-description">
+                Cooling &amp; service
               </span>
             </button>
 
@@ -155,8 +214,12 @@ function CustomerHome({
                 🔌
               </span>
 
-              <span>
-                Appliance Repair
+              <span className="service-name">
+                Appliances
+              </span>
+
+              <span className="service-description">
+                Repair &amp; maintenance
               </span>
             </button>
 
@@ -172,8 +235,12 @@ function CustomerHome({
                 🪚
               </span>
 
-              <span>
+              <span className="service-name">
                 Carpentry
+              </span>
+
+              <span className="service-description">
+                Furniture &amp; woodwork
               </span>
             </button>
 
@@ -182,43 +249,70 @@ function CustomerHome({
         </section>
 
 
-        {/* Recent Requests */}
+        {/* Requests */}
         <section className="requests-section">
 
-          <h2>
-            My Recent Requests
-          </h2>
+          <div className="section-heading">
+
+            <div>
+              <p className="section-eyebrow">
+                YOUR ACTIVITY
+              </p>
+
+              <h2>
+                Recent requests
+              </h2>
+            </div>
+
+            {requests.length > 0 && (
+              <span className="request-count">
+                {requests.length}{' '}
+                {requests.length === 1
+                  ? 'request'
+                  : 'requests'}
+              </span>
+            )}
+
+          </div>
 
 
           {requests.length === 0 ? (
 
-            /* Empty State */
             <div className="empty-requests">
 
+              <div className="empty-icon">
+                +
+              </div>
+
+              <h3>
+                No service requests yet
+              </h3>
+
               <p>
-                You don't have any service requests yet.
+                When you need help around your home,
+                your requests will appear here.
               </p>
 
               <button
                 type="button"
-                className="book-service-button"
+                className="empty-request-button"
                 onClick={() =>
                   handleServiceClick('')
                 }
               >
-                Create Your First Request
+                Create your first request
+                <span>→</span>
               </button>
 
             </div>
 
           ) : (
 
-            /* Request List */
             <div className="request-list">
 
               {requests.map((request, index) => (
 
-                <div
+                <article
                   className="request-card"
                   key={request.id || index}
                   onClick={() =>
@@ -231,20 +325,32 @@ function CustomerHome({
                       event.key === 'Enter' ||
                       event.key === ' '
                     ) {
+                      event.preventDefault()
                       onViewRequest(request)
                     }
                   }}
                 >
 
-                  {/* Request Header */}
                   <div className="request-card-top">
 
-                    <h3>
-                      {request.category
-                        .charAt(0)
-                        .toUpperCase() +
-                        request.category.slice(1)}
-                    </h3>
+                    <div>
+                      <p className="request-type">
+                        SERVICE REQUEST
+                      </p>
+
+                      <h3>
+                        {request.category
+                          ?.split('-')
+                          .map(
+                            (word) =>
+                              word
+                                .charAt(0)
+                                .toUpperCase() +
+                              word.slice(1)
+                          )
+                          .join(' ')}
+                      </h3>
+                    </div>
 
                     <span
                       className={`request-status ${getStatusClass(
@@ -257,12 +363,11 @@ function CustomerHome({
                   </div>
 
 
-                  {/* Problem */}
                   <div className="request-info">
 
-                    <strong>
+                    <span className="request-info-label">
                       Problem
-                    </strong>
+                    </span>
 
                     <p>
                       {request.description}
@@ -271,12 +376,11 @@ function CustomerHome({
                   </div>
 
 
-                  {/* Location */}
-                  <div className="request-info">
+                  <div className="request-location">
 
-                    <strong>
-                      📍 Location
-                    </strong>
+                    <span>
+                      📍
+                    </span>
 
                     <p>
                       {request.location}
@@ -285,31 +389,34 @@ function CustomerHome({
                   </div>
 
 
-                  {/* Footer */}
                   <div className="request-footer">
-
-                    <span>
-                      View details →
-                    </span>
 
                     <span>
                       {formatDate(request.createdAt)}
                     </span>
 
-                    <button
-                      type="button"
-                      className="delete-request-button"
-                      onClick={(event) => {
-                        event.stopPropagation()
-                        onDeleteRequest(index)
-                      }}
-                    >
-                      🗑️ Delete
-                    </button>
+                    <div className="request-actions">
+
+                      <span className="view-request">
+                        View details →
+                      </span>
+
+                      <button
+                        type="button"
+                        className="delete-request-button"
+                        onClick={(event) => {
+                          event.stopPropagation()
+                          onDeleteRequest(index)
+                        }}
+                      >
+                        Delete
+                      </button>
+
+                    </div>
 
                   </div>
 
-                </div>
+                </article>
 
               ))}
 

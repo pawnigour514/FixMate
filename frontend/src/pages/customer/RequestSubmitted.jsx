@@ -1,25 +1,54 @@
-function RequestSubmitted({ request, onViewRequest, onBackHome }) {
+function RequestSubmitted({
+  request,
+  onViewRequest,
+  onBackHome,
+}) {
   return (
     <div className="request-submitted-page">
-      <div className="request-submitted-card">
 
-        <div className="success-icon">
+      <div className="request-submitted-container">
+
+        <div className="submitted-brand">
+          <span className="brand-mark">
+            F
+          </span>
+
+          <span className="brand-name">
+            FixMate
+          </span>
+        </div>
+
+
+        <div className="submitted-success-icon">
           ✓
         </div>
 
-        <h1>Request Submitted!</h1>
 
-        <p>
-          Your service request has been successfully submitted.
+        <p className="submitted-eyebrow">
+          REQUEST SUBMITTED
         </p>
 
-        <div className="submitted-request-id">
-          <span>Request ID</span>
+        <h1>
+          Request submitted successfully
+        </h1>
+
+        <p className="submitted-description">
+          Your service request has been received.
+        </p>
+
+
+        <div className="submitted-request-box">
+
+          <span>
+            Request ID
+          </span>
 
           <strong>
             {request?.id || 'FM-0001'}
           </strong>
+
         </div>
+
 
         <div className="submitted-actions">
 
@@ -29,6 +58,7 @@ function RequestSubmitted({ request, onViewRequest, onBackHome }) {
             onClick={() => onViewRequest(request)}
           >
             View Request
+            <span>→</span>
           </button>
 
           <button
@@ -42,6 +72,7 @@ function RequestSubmitted({ request, onViewRequest, onBackHome }) {
         </div>
 
       </div>
+
     </div>
   )
 }

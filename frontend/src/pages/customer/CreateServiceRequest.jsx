@@ -11,14 +11,6 @@ function CreateServiceRequest({
   const [file, setFile] = useState(null)
   const [locationLoading, setLocationLoading] = useState(false)
 
-  const serviceNames = {
-    plumbing: '🔧 Plumbing',
-    electrical: '⚡ Electrical',
-    'ac-repair': '❄️ AC Repair',
-    'appliance-repair': '🔌 Appliance Repair',
-    carpentry: '🪚 Carpentry',
-  }
-
   const handleGetLocation = () => {
     if (!navigator.geolocation) {
       alert('Location is not supported by your browser.')
@@ -64,21 +56,50 @@ function CreateServiceRequest({
 
   return (
     <div className="service-request-page">
+
       <div className="service-request-container">
+
+        <div className="service-request-topbar">
+
+          <button
+            type="button"
+            className="back-button"
+            onClick={onBack}
+          >
+            ← Back
+          </button>
+
+          <div className="request-page-brand">
+
+            <span className="brand-mark">
+              F
+            </span>
+
+            <span className="brand-name">
+              FixMate
+            </span>
+
+          </div>
+
+        </div>
+
 
         <div className="service-request-header">
 
-          <button type="button" onClick={onBack}>
-            ← Back to Home
-          </button>
+          <p className="request-page-eyebrow">
+            SERVICE REQUEST
+          </p>
 
-          <h1>FixMate</h1>
+          <h1>
+            What needs fixing?
+          </h1>
 
           <p>
-            Tell us what you need help with
+            Tell us what you need help with.
           </p>
 
         </div>
+
 
         <div className="service-request-card">
 
@@ -87,17 +108,8 @@ function CreateServiceRequest({
             <div className="form-group">
 
               <label htmlFor="category">
-                Service Category
+                Service
               </label>
-
-              {category && (
-                <div className="selected-service">
-                  You're booking:{' '}
-                  <strong>
-                    {serviceNames[category]}
-                  </strong>
-                </div>
-              )}
 
               <select
                 id="category"
@@ -107,8 +119,9 @@ function CreateServiceRequest({
                 }
                 required
               >
+
                 <option value="">
-                  Select a category
+                  Select a service
                 </option>
 
                 <option value="plumbing">
@@ -139,7 +152,7 @@ function CreateServiceRequest({
             <div className="form-group">
 
               <label htmlFor="description">
-                Describe Your Problem
+                Problem
               </label>
 
               <textarea
@@ -148,14 +161,14 @@ function CreateServiceRequest({
                 onChange={(event) =>
                   setDescription(event.target.value)
                 }
-                placeholder="Tell us what problem you are facing..."
+                placeholder="Describe your problem..."
                 rows="5"
                 maxLength="500"
                 required
               />
 
               <div className="character-counter">
-                {description.length} / 500 characters
+                {description.length} / 500
               </div>
 
             </div>
@@ -164,7 +177,7 @@ function CreateServiceRequest({
             <div className="form-group">
 
               <label htmlFor="location">
-                📍 Location
+                Location
               </label>
 
               <div className="location-input-row">
@@ -199,13 +212,35 @@ function CreateServiceRequest({
             <div className="form-group">
 
               <label htmlFor="file">
-                Upload Image or Video
+                Photos / Video
+              </label>
+
+              <label
+                htmlFor="file"
+                className="file-upload-area"
+              >
+
+                <span className="file-upload-icon">
+                  +
+                </span>
+
+                <span className="file-upload-title">
+                  {file
+                    ? file.name
+                    : 'Add a photo or video'}
+                </span>
+
+                <span className="file-upload-help">
+                  Optional
+                </span>
+
               </label>
 
               <input
                 id="file"
                 type="file"
                 accept="image/*,video/*"
+                className="file-input-hidden"
                 onChange={(event) =>
                   setFile(event.target.files[0])
                 }
@@ -214,18 +249,28 @@ function CreateServiceRequest({
             </div>
 
 
-            <button
-              type="submit"
-              className="submit-button"
-            >
-              Submit Service Request
-            </button>
+            <div className="request-submit-area">
+
+              <strong>
+                Submit your request
+              </strong>
+
+              <button
+                type="submit"
+                className="submit-button"
+              >
+                Submit Request
+                <span>→</span>
+              </button>
+
+            </div>
 
           </form>
 
         </div>
 
       </div>
+
     </div>
   )
 }
