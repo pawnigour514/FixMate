@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-function CreateServiceRequest() {
+function CreateServiceRequest({ onBack, onSubmitRequest }) {
   const [category, setCategory] = useState('')
   const [description, setDescription] = useState('')
   const [location, setLocation] = useState('')
@@ -9,12 +9,14 @@ function CreateServiceRequest() {
   const handleSubmit = (event) => {
     event.preventDefault()
 
-    console.log({
+    const newRequest = {
       category,
       description,
       location,
       file,
-    })
+    }
+
+    onSubmitRequest(newRequest)
 
     alert('Service request submitted!')
   }
@@ -24,12 +26,16 @@ function CreateServiceRequest() {
       <div className="service-request-container">
 
         <div className="service-request-header">
+          <button type="button" onClick={onBack}>
+            ← Back to Home
+          </button>
+
           <h1>FixMate</h1>
           <p>Tell us what you need help with</p>
         </div>
 
         <div className="service-request-card">
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} novalidate>
 
             <div className="form-group">
               <label htmlFor="category">
