@@ -4,6 +4,7 @@ function CustomerHome({
   onViewRequest,
   requests,
   onDeleteRequest,
+  customer,
 }) {
   const getStatusClass = (status) => {
     switch (status) {
@@ -24,6 +25,21 @@ function CustomerHome({
     }
   }
 
+  const formatDate = (date) => {
+    if (!date) {
+      return 'Submitted just now'
+    }
+
+    return new Date(date).toLocaleString('en-IN', {
+      dateStyle: 'medium',
+      timeStyle: 'short',
+    })
+  }
+
+  const handleServiceClick = (service) => {
+    onBookService(service)
+  }
+
   return (
     <div className="customer-home">
 
@@ -42,7 +58,9 @@ function CustomerHome({
       <main className="customer-content">
 
         <section className="welcome-section">
-          <h2>Hello, Rohit 👋</h2>
+          <h2>
+            Hello, {customer?.name || 'Rohit'} 👋
+          </h2>
 
           <p>
             What service do you need today?
@@ -50,7 +68,7 @@ function CustomerHome({
 
           <button
             className="book-service-button"
-            onClick={onBookService}
+            onClick={() => handleServiceClick('')}
           >
             Book a Service
           </button>
@@ -62,23 +80,43 @@ function CustomerHome({
 
           <div className="service-grid">
 
-            <button onClick={onBookService}>
+            <button
+              onClick={() =>
+                handleServiceClick('plumbing')
+              }
+            >
               🔧 Plumbing
             </button>
 
-            <button onClick={onBookService}>
+            <button
+              onClick={() =>
+                handleServiceClick('electrical')
+              }
+            >
               ⚡ Electrical
             </button>
 
-            <button onClick={onBookService}>
+            <button
+              onClick={() =>
+                handleServiceClick('ac-repair')
+              }
+            >
               ❄️ AC Repair
             </button>
 
-            <button onClick={onBookService}>
+            <button
+              onClick={() =>
+                handleServiceClick('appliance-repair')
+              }
+            >
               🔌 Appliance Repair
             </button>
 
-            <button onClick={onBookService}>
+            <button
+              onClick={() =>
+                handleServiceClick('carpentry')
+              }
+            >
               🪚 Carpentry
             </button>
 
@@ -92,16 +130,20 @@ function CustomerHome({
           {requests.length === 0 ? (
 
             <div className="empty-requests">
+
               <p>
                 You don't have any service requests yet.
               </p>
 
               <button
                 className="book-service-button"
-                onClick={onBookService}
+                onClick={() =>
+                  handleServiceClick('')
+                }
               >
                 Create Your First Request
               </button>
+
             </div>
 
           ) : (
@@ -113,7 +155,9 @@ function CustomerHome({
                 <div
                   className="request-card"
                   key={index}
-                  onClick={() => onViewRequest(request)}
+                  onClick={() =>
+                    onViewRequest(request)
+                  }
                 >
 
                   <div className="request-card-top">
@@ -135,27 +179,36 @@ function CustomerHome({
 
 
                   <div className="request-info">
-                    <strong>Problem</strong>
+
+                    <strong>
+                      Problem
+                    </strong>
 
                     <p>
                       {request.description}
                     </p>
+
                   </div>
 
 
                   <div className="request-info">
-                    <strong>📍 Location</strong>
+
+                    <strong>
+                      📍 Location
+                    </strong>
 
                     <p>
                       {request.location}
                     </p>
+
                   </div>
 
 
                   <div className="request-footer">
 
                     <span>
-                      View details →
+                      Submitted{' '}
+                      {formatDate(request.createdAt)}
                     </span>
 
                     <button
@@ -181,6 +234,7 @@ function CustomerHome({
         </section>
 
       </main>
+
     </div>
   )
 }
