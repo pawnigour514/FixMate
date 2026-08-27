@@ -4,10 +4,12 @@ import './App.css'
 import CustomerHome from './pages/customer/CustomerHome'
 import CreateServiceRequest from './pages/customer/CreateServiceRequest'
 import CustomerProfile from './pages/customer/CustomerProfile'
+import ServiceRequestDetails from './pages/customer/ServiceRequestDetails'
 
 function App() {
   const [page, setPage] = useState('home')
   const [requests, setRequests] = useState([])
+  const [selectedRequest, setSelectedRequest] = useState(null)
 
   const handleDeleteRequest = (requestIndex) => {
     setRequests((currentRequests) =>
@@ -27,6 +29,11 @@ function App() {
     setPage('home')
   }
 
+  const handleViewRequest = (request) => {
+    setSelectedRequest(request)
+    setPage('details')
+  }
+
   if (page === 'request') {
     return (
       <CreateServiceRequest
@@ -44,10 +51,20 @@ function App() {
     )
   }
 
+  if (page === 'details') {
+    return (
+      <ServiceRequestDetails
+        request={selectedRequest}
+        onBack={() => setPage('home')}
+      />
+    )
+  }
+
   return (
     <CustomerHome
       onBookService={() => setPage('request')}
       onProfile={() => setPage('profile')}
+      onViewRequest={handleViewRequest}
       requests={requests}
       onDeleteRequest={handleDeleteRequest}
     />

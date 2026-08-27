@@ -1,6 +1,7 @@
 function CustomerHome({
   onBookService,
   onProfile,
+  onViewRequest,
   requests,
   onDeleteRequest,
 }) {
@@ -112,6 +113,7 @@ function CustomerHome({
                 <div
                   className="request-card"
                   key={index}
+                  onClick={() => onViewRequest(request)}
                 >
 
                   <div className="request-card-top">
@@ -153,14 +155,15 @@ function CustomerHome({
                   <div className="request-footer">
 
                     <span>
-                      Submitted just now
+                      View details →
                     </span>
 
                     <button
                       className="delete-request-button"
-                      onClick={() =>
+                      onClick={(event) => {
+                        event.stopPropagation()
                         onDeleteRequest(index)
-                      }
+                      }}
                     >
                       🗑️ Delete
                     </button>
