@@ -424,3 +424,32 @@ body {
 .complete-button:hover {
   opacity: 0.85;
 }
+.request-actions input {
+  padding: 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 7px;
+  width: 150px;
+}
+.request-details h3 {
+  margin-bottom: 15px;
+}
+
+.request-details p {
+  margin-bottom: 10px;
+}
+.profile-card h2 {
+  margin-bottom: 15px;
+  margin-top: 25px;
+}
+
+.profile-card h2:first-child {
+  margin-top: 0;
+}
+
+.request-details {
+  margin-bottom: 25px;
+}
+.card-button {
+  background: #111827;
+  color: rgb(255, 255, 255);
+}
